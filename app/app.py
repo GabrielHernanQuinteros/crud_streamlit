@@ -15,8 +15,8 @@ def main():
 
 	HTML_BANNER = """
     <div style="background-color:#464e5f;padding:10px;border-radius:10px">
-    <h1 style="color:white;text-align:center;">ToDo App (CRUD)</h1>
-    <p style="color:white;text-align:center;">Built with Streamlit</p>
+    <h1 style="color:white;text-align:center;">Administracion de datos</h1>
+    <p style="color:white;text-align:center;">Version demo</p>
     </div>
     """
 	stc.html(HTML_BANNER)
