@@ -29,7 +29,7 @@ def main():
 
 	if choice == "Crear":
 		st.subheader("Add Item")
-		col1,col2 = st.columns(2)
+		col1,col2 = st.beta_columns(2)
 		
 		with col1:
 			task = st.text_area("Task To Do")
@@ -80,7 +80,7 @@ def main():
 			task_status = task_result[0][1]
 			task_due_date = task_result[0][2]
 
-			col1,col2 = st.columns(2)
+			col1,col2 = st.beta_columns(2)
 			
 			with col1:
 				new_task = st.text_area("Task To Do",task)
