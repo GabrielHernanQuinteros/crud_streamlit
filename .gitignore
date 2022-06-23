@@ -1,0 +1,7 @@
+/etc
+/Include
+/Lib
+/pyvenv.cfg
+/Scripts
+/share
+/__pycache__
