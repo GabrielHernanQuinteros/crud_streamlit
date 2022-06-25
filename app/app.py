@@ -35,7 +35,8 @@ def main():
 			task = st.text_area("Task To Do")
 
 		with col2:
-			task_status = st.selectbox("Status",["ToDo","Doing","Done"])
+			miListaEstado = ["ToDo","Doing","Done"]
+			task_status = st.selectbox("Status",miListaEstado)
 			task_due_date = st.date_input("Due Date")
 
 		if st.button("Add Task"):
@@ -87,6 +88,7 @@ def main():
 
 			with col2:
 				#HAY QUE BUSCAR EL INDICEEEEEEEEEEEEEEEEEEEEEEEEEEE ************************
+
 				new_task_status = st.selectbox("Status",["ToDo","Doing","Done"],1)
 				new_task_due_date = st.date_input("Fecha",datetime.strptime(task_due_date, '%Y-%m-%d'))
 
@@ -123,10 +125,10 @@ def main():
 			st.dataframe(clean_df)
 
 	if choice == "Acerca de":
-		st.subheader("About ToDo List App")
-		st.info("Built with Streamlit")
-		st.info("Jesus Saves @JCharisTech")
-		st.text("Jesse E.Agbe(JCharis)")
+		st.subheader("Acerca de : App con Streamlit")
+		st.info("Hecho con Streamlit")
+		st.info("Gabriel Quinteros")
+		st.text("guru_vb@hotmail.com")
 
 
 if __name__ == '__main__':
