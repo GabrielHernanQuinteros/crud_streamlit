@@ -21,110 +21,108 @@ def main():
     """
 	stc.html(HTML_BANNER)
 
-	miListaEstado = ["ToDo","Doing","Done"]
-
-	choice = st.sidebar.selectbox("Menu",["Crear","Leer","Modificar","Borrar","Acerca de"])
+	ListaEstado = ["ToDo","Doing","Done"]
+	ListaColumnas = ["Task","Status","Date"]
+	Eleccion = st.sidebar.selectbox("Menu",["Crear","Leer","Modificar","Borrar","Acerca de"])
 	
 	create_table()		# funcionesDB
 
-	if choice == "Crear":
+	if Eleccion == "Crear":
 		st.subheader("Add Item")
 		col1,col2 = st.beta_columns(2)
 		
 		with col1:
-			task = st.text_area("Task To Do")
+			TareaNombre = st.text_area("Task To Do")
 
 		with col2:
 			
-			task_status = st.selectbox("Status",miListaEstado)
-			task_due_date = st.date_input("Due Date")
+			TareaEstado = st.selectbox("Status",ListaEstado)
+			TareaFecha = st.date_input("Due Date")
 
 		if st.button("Add Task"):
-			add_data(task,task_status,task_due_date)
+			add_data(TareaNombre, TareaEstado, TareaFecha)
 			st.success("Added ::{} ::To Task".format(task))
 
 
-	if choice == "Leer":
+	if Eleccion == "Leer":
 		# st.subheader("View Items")
 		with st.beta_expander("View All"):
-			result = view_all_data()
+			TodasLasTareas = view_all_data()
 			# st.write(result)
-			clean_df = pd.DataFrame(result,columns=["Task","Status","Date"])
-			st.dataframe(clean_df)
+			MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
+			st.dataframe(MiDataframe)
 
 		with st.beta_expander("Task Status"):
-			task_df = clean_df['Status'].value_counts().to_frame()
+			DataframeTareas = MiDataframe['Status'].value_counts().to_frame()
 			# st.dataframe(task_df)
-			task_df = task_df.reset_index()
-			st.dataframe(task_df)
+			DataframeTareas = DataframeTareas.reset_index()
+			st.dataframe(DataframeTareas)
 
-			p1 = px.pie(task_df,names='index',values='Status')
-			st.plotly_chart(p1,use_container_width=True)
+			GraficoTorta = px.pie(DataframeTareas, names='index', values='Status')
+			st.plotly_chart(GraficoTorta, use_container_width=True)
 
 
-	if choice == "Modificar":
+	if Eleccion == "Modificar":
 		st.subheader("Edit Items")
 
 		with st.beta_expander("Current Data"):
-			result = view_all_data()
+			TodasLasTareas = view_all_data()
 			# st.write(result)
-			clean_df = pd.DataFrame(result,columns=["Task","Status","Date"])
-			st.dataframe(clean_df)
+			MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
+			st.dataframe(MiDataframe)
 
-		list_of_tasks = [i[0] for i in view_all_task_names()]
-		selected_task = st.selectbox("Task",list_of_tasks)
-		task_result = get_task(selected_task)
+		ListaUnicaDeNombres = [i[0] for i in view_all_task_names()]
+		TareaSeleccionada = st.selectbox("Task", ListaUnicaDeNombres)
+		TareaObtenida = get_task(TareaSeleccionada)
 		# st.write(task_result)
 
-		if task_result:
-			task = task_result[0][0]
-			task_status = task_result[0][1]
-			task_due_date = task_result[0][2]
+		if TareaObtenida:
+			TareaNombre = TareaObtenida[0][0]
+			TareaEstado = TareaObtenida[0][1]
+			TareaFecha = TareaObtenida[0][2]
 
 			col1,col2 = st.beta_columns(2)
 			
 			with col1:
-				new_task = st.text_area("Task To Do",task)
+				NuevaTareaNombre = st.text_area("Task To Do",task)
 
 			with col2:
-				#HAY QUE BUSCAR EL INDICEEEEEEEEEEEEEEEEEEEEEEEEEEE ************************
-
-				new_task_status = st.selectbox("Status",miListaEstado,miListaEstado.index(task_status))
-				new_task_due_date = st.date_input("Fecha",datetime.strptime(task_due_date, '%Y-%m-%d'))
+				NuevaTareaEstado = st.selectbox("Status",ListaEstado,ListaEstado.index(TareaEstado))
+				NuevaTareaFecha = st.date_input("Fecha",datetime.strptime(TareaFecha, '%Y-%m-%d'))
 
 			if st.button("Update Task"):
-				edit_task_data(new_task,new_task_status,new_task_due_date,task,task_status,task_due_date)
-				st.success("Updated ::{} ::To {}".format(task,new_task))
+				edit_task_data(NuevaTareaNombre,NuevaTareaEstado,NuevaTareaFecha,TareaNombre,TareaEstado,TareaFecha)
+				st.success("Updated ::{} ::To {}".format(TareaNombre,NuevaTareaNombre))
 
 			with st.beta_expander("View Updated Data"):
-				result = view_all_data()
+				TodasLasTareas = view_all_data()
 				# st.write(result)		# Para verlo como una lista sin formato
-				clean_df = pd.DataFrame(result,columns=["Task","Status","Date"])
-				st.dataframe(clean_df)
+				MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
+				st.dataframe(MiDataframe)
 
 
-	if choice == "Borrar":
+	if Eleccion == "Borrar":
 		st.subheader("Delete")
 		with st.beta_expander("View Data"):
-			result = view_all_data()
+			TodasLasTareas = view_all_data()
 			# st.write(result)		# Para verlo como una lista sin formato
-			clean_df = pd.DataFrame(result,columns=["Task","Status","Date"])
-			st.dataframe(clean_df)
+			MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
+			st.dataframe(MiDataframe)
 
-		unique_list = [i[0] for i in view_all_task_names()]
-		delete_by_task_name =  st.selectbox("Select Task",unique_list)
+		ListaUnicaDeNombres = [i[0] for i in view_all_task_names()]
+		NombreEliminar =  st.selectbox("Select Task", ListaUnicaDeNombres)
 
 		if st.button("Delete"):
-			delete_data(delete_by_task_name)
-			st.warning("Deleted: '{}'".format(delete_by_task_name))
+			delete_data(NombreEliminar)
+			st.warning("Deleted: '{}'".format(NombreEliminar))
 
 		with st.beta_expander("Updated Data"):
-			result = view_all_data()
+			TodasLasTareas = view_all_data()
 			# st.write(result)			# Para verlo como una lista sin formato
-			clean_df = pd.DataFrame(result,columns=["Task","Status","Date"])
-			st.dataframe(clean_df)
+			MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
+			st.dataframe(MiDataframe)
 
-	if choice == "Acerca de":
+	if Eleccion == "Acerca de":
 		st.subheader("Acerca de : App con Streamlit")
 		st.info("Hecho con Streamlit")
 		st.info("Gabriel Quinteros")
