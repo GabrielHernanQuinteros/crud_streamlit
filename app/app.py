@@ -21,7 +21,7 @@ def main():
     """
 	stc.html(HTML_BANNER)
 
-
+	miListaEstado = ["ToDo","Doing","Done"]
 
 	choice = st.sidebar.selectbox("Menu",["Crear","Leer","Modificar","Borrar","Acerca de"])
 	
@@ -35,7 +35,7 @@ def main():
 			task = st.text_area("Task To Do")
 
 		with col2:
-			miListaEstado = ["ToDo","Doing","Done"]
+			
 			task_status = st.selectbox("Status",miListaEstado)
 			task_due_date = st.date_input("Due Date")
 
@@ -89,7 +89,7 @@ def main():
 			with col2:
 				#HAY QUE BUSCAR EL INDICEEEEEEEEEEEEEEEEEEEEEEEEEEE ************************
 
-				new_task_status = st.selectbox("Status",["ToDo","Doing","Done"],1)
+				new_task_status = st.selectbox("Status",miListaEstado,miListaEstado.index(task_status))
 				new_task_due_date = st.date_input("Fecha",datetime.strptime(task_due_date, '%Y-%m-%d'))
 
 			if st.button("Update Task"):
