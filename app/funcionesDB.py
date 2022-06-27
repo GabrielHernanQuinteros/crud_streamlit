@@ -1,43 +1,43 @@
 import sqlite3
-conn = sqlite3.connect('data.db',check_same_thread=False)
+conn = sqlite3.connect('datos.db',check_same_thread=False)
 c = conn.cursor()
 
 
 def create_table():
-	c.execute('CREATE TABLE IF NOT EXISTS taskstable(task TEXT,task_status TEXT,task_due_date DATE)')
+	c.execute('CREATE TABLE IF NOT EXISTS TablaTareas(nombre TEXT,estado TEXT,fecha DATE)')
 
 
-def add_data(task,task_status,task_due_date):
-	c.execute('INSERT INTO taskstable(task,task_status,task_due_date) VALUES (?,?,?)',(task,task_status,task_due_date))
+def add_data(parNombre,parEstado,parFecha):
+	c.execute('INSERT INTO TablaTareas(nombre,estado,fecha) VALUES (?,?,?)',(parNombre,parEstado,parFecha))
 	conn.commit()
 
 
 def view_all_data():
-	c.execute('SELECT * FROM taskstable')
+	c.execute('SELECT * FROM TablaTareas')
 	data = c.fetchall()
 	return data
 
 def view_all_task_names():
-	c.execute('SELECT DISTINCT task FROM taskstable')
+	c.execute('SELECT DISTINCT nombre FROM TablaTareas')
 	data = c.fetchall()
 	return data
 
-def get_task(task):
-	c.execute('SELECT * FROM taskstable WHERE task="{}"'.format(task))
+def get_task(parNombre):
+	c.execute('SELECT * FROM TablaTareas WHERE nombre="{}"'.format(parNombre))
 	data = c.fetchall()
 	return data
 
-def get_task_by_status(task_status):
-	c.execute('SELECT * FROM taskstable WHERE task_status="{}"'.format(task_status))
+def get_task_by_status(parEstado):
+	c.execute('SELECT * FROM TablaTareas WHERE estado="{}"'.format(parEstado))
 	data = c.fetchall()
 
 
-def edit_task_data(new_task,new_task_status,new_task_date,task,task_status,task_due_date):
-	c.execute("UPDATE taskstable SET task =?,task_status=?,task_due_date=? WHERE task=? and task_status=? and task_due_date=? ",(new_task,new_task_status,new_task_date,task,task_status,task_due_date))
+def edit_task_data(parNuevoNombre,parNuevoEstado,parNuevaFecha,parNombre,parEstado,parFecha):
+	c.execute("UPDATE TablaTareas SET nombre =?,estado=?,fecha=? WHERE nombre=? and estado=? and fecha=? ",(parNuevoNombre,parNuevoEstado,parNuevaFecha,parNombre,parEstado,parFecha))
 	conn.commit()
 	data = c.fetchall()
 	return data
 
-def delete_data(task):
-	c.execute('DELETE FROM taskstable WHERE task="{}"'.format(task))
+def delete_data(parNombre):
+	c.execute('DELETE FROM TablaTareas WHERE nombre="{}"'.format(parNombre))
 	conn.commit()

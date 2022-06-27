@@ -22,7 +22,7 @@ def main():
 	stc.html(HTML_BANNER)
 
 	ListaEstado = ["Hacer","Haciendo","Hecha"]
-	ListaColumnas = ["Task","Status","Date"]
+	ListaColumnas = ["Nombre","Estado","Fecha"]
 	Eleccion = st.sidebar.selectbox("Menu",["Crear","Leer","Modificar","Eliminar","Acerca de"])
 	
 	create_table()		# funcionesDB
@@ -53,12 +53,12 @@ def main():
 			st.dataframe(MiDataframe)
 
 		with st.beta_expander("Estados de tareas"):
-			DataframeTareas = MiDataframe['Status'].value_counts().to_frame()
+			DataframeTareas = MiDataframe['Estado'].value_counts().to_frame()
 			# st.dataframe(task_df)
 			DataframeTareas = DataframeTareas.reset_index()
 			st.dataframe(DataframeTareas)
 
-			GraficoTorta = px.pie(DataframeTareas, names='index', values='Status')
+			GraficoTorta = px.pie(DataframeTareas, names='index', values='Estado')
 			st.plotly_chart(GraficoTorta, use_container_width=True)
 
 
@@ -72,7 +72,7 @@ def main():
 			st.dataframe(MiDataframe)
 
 		ListaUnicaDeNombres = [i[0] for i in view_all_task_names()]
-		TareaSeleccionada = st.selectbox("Tarea", ListaUnicaDeNombres)
+		TareaSeleccionada = st.selectbox("Nombre", ListaUnicaDeNombres)
 		TareaObtenida = get_task(TareaSeleccionada)
 		# st.write(task_result)
 
@@ -110,7 +110,7 @@ def main():
 			st.dataframe(MiDataframe)
 
 		ListaUnicaDeNombres = [i[0] for i in view_all_task_names()]
-		NombreEliminar =  st.selectbox("Select Task", ListaUnicaDeNombres)
+		NombreEliminar =  st.selectbox("Seleccione tarea", ListaUnicaDeNombres)
 
 		if st.button("Eliminar"):
 			delete_data(NombreEliminar)
