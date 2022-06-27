@@ -58,7 +58,7 @@ def main():
 			DataframeTareas = DataframeTareas.reset_index()
 			st.dataframe(DataframeTareas)
 
-			GraficoTorta = px.pie(DataframeTareas, names='Estado', values='index')
+			GraficoTorta = px.pie(DataframeTareas, names='index', values='Estado')
 			st.plotly_chart(GraficoTorta, use_container_width=True)
 
 
