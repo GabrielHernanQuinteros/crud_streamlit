@@ -21,38 +21,38 @@ def main():
     """
 	stc.html(HTML_BANNER)
 
-	ListaEstado = ["ToDo","Doing","Done"]
+	ListaEstado = ["Hacer","Haciendo","Hecha"]
 	ListaColumnas = ["Task","Status","Date"]
-	Eleccion = st.sidebar.selectbox("Menu",["Crear","Leer","Modificar","Borrar","Acerca de"])
+	Eleccion = st.sidebar.selectbox("Menu",["Crear","Leer","Modificar","Eliminar","Acerca de"])
 	
 	create_table()		# funcionesDB
 
 	if Eleccion == "Crear":
-		st.subheader("Add Item")
+		st.subheader("Crear Item")
 		col1,col2 = st.beta_columns(2)
 		
 		with col1:
-			TareaNombre = st.text_area("Task To Do")
+			TareaNombre = st.text_area("Tarea para hacer")
 
 		with col2:
 			
-			TareaEstado = st.selectbox("Status",ListaEstado)
-			TareaFecha = st.date_input("Due Date")
+			TareaEstado = st.selectbox("Estado",ListaEstado)
+			TareaFecha = st.date_input("Fecha")
 
-		if st.button("Add Task"):
+		if st.button("Crear tarea"):
 			add_data(TareaNombre, TareaEstado, TareaFecha)
-			st.success("Added ::{} ::To Task".format(task))
+			st.success("Creado ::{} ::a tarea".format(TareaNombre))
 
 
 	if Eleccion == "Leer":
 		# st.subheader("View Items")
-		with st.beta_expander("View All"):
+		with st.beta_expander("Ver Todas"):
 			TodasLasTareas = view_all_data()
 			# st.write(result)
 			MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
 			st.dataframe(MiDataframe)
 
-		with st.beta_expander("Task Status"):
+		with st.beta_expander("Estados de tareas"):
 			DataframeTareas = MiDataframe['Status'].value_counts().to_frame()
 			# st.dataframe(task_df)
 			DataframeTareas = DataframeTareas.reset_index()
@@ -63,16 +63,16 @@ def main():
 
 
 	if Eleccion == "Modificar":
-		st.subheader("Edit Items")
+		st.subheader("Editar tarea")
 
-		with st.beta_expander("Current Data"):
+		with st.beta_expander("Datos actuales"):
 			TodasLasTareas = view_all_data()
 			# st.write(result)
 			MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
 			st.dataframe(MiDataframe)
 
 		ListaUnicaDeNombres = [i[0] for i in view_all_task_names()]
-		TareaSeleccionada = st.selectbox("Task", ListaUnicaDeNombres)
+		TareaSeleccionada = st.selectbox("Tarea", ListaUnicaDeNombres)
 		TareaObtenida = get_task(TareaSeleccionada)
 		# st.write(task_result)
 
@@ -84,26 +84,26 @@ def main():
 			col1,col2 = st.beta_columns(2)
 			
 			with col1:
-				NuevaTareaNombre = st.text_area("Task To Do",task)
+				NuevaTareaNombre = st.text_area("Tarea para hacer",TareaNombre)
 
 			with col2:
-				NuevaTareaEstado = st.selectbox("Status",ListaEstado,ListaEstado.index(TareaEstado))
+				NuevaTareaEstado = st.selectbox("Estado",ListaEstado,ListaEstado.index(TareaEstado))
 				NuevaTareaFecha = st.date_input("Fecha",datetime.strptime(TareaFecha, '%Y-%m-%d'))
 
-			if st.button("Update Task"):
+			if st.button("Modificar tarea"):
 				edit_task_data(NuevaTareaNombre,NuevaTareaEstado,NuevaTareaFecha,TareaNombre,TareaEstado,TareaFecha)
-				st.success("Updated ::{} ::To {}".format(TareaNombre,NuevaTareaNombre))
+				st.success("Modificado ::{} ::a {}".format(TareaNombre,NuevaTareaNombre))
 
-			with st.beta_expander("View Updated Data"):
+			with st.beta_expander("Ver datos modificados"):
 				TodasLasTareas = view_all_data()
 				# st.write(result)		# Para verlo como una lista sin formato
 				MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
 				st.dataframe(MiDataframe)
 
 
-	if Eleccion == "Borrar":
-		st.subheader("Delete")
-		with st.beta_expander("View Data"):
+	if Eleccion == "Eliminar":
+		st.subheader("Eliminar tarea")
+		with st.beta_expander("Datos actuales"):
 			TodasLasTareas = view_all_data()
 			# st.write(result)		# Para verlo como una lista sin formato
 			MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
@@ -112,11 +112,11 @@ def main():
 		ListaUnicaDeNombres = [i[0] for i in view_all_task_names()]
 		NombreEliminar =  st.selectbox("Select Task", ListaUnicaDeNombres)
 
-		if st.button("Delete"):
+		if st.button("Eliminar"):
 			delete_data(NombreEliminar)
-			st.warning("Deleted: '{}'".format(NombreEliminar))
+			st.warning("Eliminado: '{}'".format(NombreEliminar))
 
-		with st.beta_expander("Updated Data"):
+		with st.beta_expander("Ver datos modificados"):
 			TodasLasTareas = view_all_data()
 			# st.write(result)			# Para verlo como una lista sin formato
 			MiDataframe = pd.DataFrame(TodasLasTareas, columns = ListaColumnas)
