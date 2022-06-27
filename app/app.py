@@ -41,7 +41,7 @@ def main():
 
 		if st.button("Crear tarea"):
 			add_data(TareaNombre, TareaEstado, TareaFecha)
-			st.success("Creado ::{} ::a tarea".format(TareaNombre))
+			st.success("Creado ::{}".format(TareaNombre))
 
 
 	if Eleccion == "Leer":
@@ -58,7 +58,7 @@ def main():
 			DataframeTareas = DataframeTareas.reset_index()
 			st.dataframe(DataframeTareas)
 
-			GraficoTorta = px.pie(DataframeTareas, names='index', values='Estado')
+			GraficoTorta = px.pie(DataframeTareas, names='Estados', values='Cantidad')
 			st.plotly_chart(GraficoTorta, use_container_width=True)
 
 
