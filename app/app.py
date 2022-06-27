@@ -92,7 +92,7 @@ def main():
 
 			if st.button("Modificar tarea"):
 				edit_task_data(NuevaTareaNombre,NuevaTareaEstado,NuevaTareaFecha,TareaNombre,TareaEstado,TareaFecha)
-				st.success("Modificado ::{} ::a {}".format(TareaNombre,NuevaTareaNombre))
+				st.success("Modificado ::{} ".format(TareaNombre))
 
 			with st.beta_expander("Ver datos modificados"):
 				TodasLasTareas = view_all_data()
