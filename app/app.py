@@ -53,12 +53,12 @@ def main():
 			st.dataframe(MiDataframe)
 
 		with st.beta_expander("Estados de tareas"):
-			DataframeTareas = MiDataframe['Cantidad'].value_counts().to_frame()
+			DataframeTareas = MiDataframe['Estado'].value_counts().to_frame()
 			# st.dataframe(task_df)
 			DataframeTareas = DataframeTareas.reset_index()
 			st.dataframe(DataframeTareas)
 
-			GraficoTorta = px.pie(DataframeTareas, names='index', values='Cantidad')
+			GraficoTorta = px.pie(DataframeTareas, names='index', values='Estado')
 			st.plotly_chart(GraficoTorta, use_container_width=True)
 
 
